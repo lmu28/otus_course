@@ -4,6 +4,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.student.testing.config.Config;
 import org.student.testing.service.QuestionFileService;
 import org.student.testing.service.QuestionFileServiceImpl;
+import org.student.testing.service.TestingService;
+
 import java.util.Scanner;
 
 
@@ -20,14 +22,9 @@ public class App
 
 
         QuestionFileService fileService = context.getBean(QuestionFileServiceImpl.class);
-        //TestingService testingService = context.getBean(TestingService.class);
+        TestingService testingService = context.getBean(TestingService.class);
 
-        //testingService.startTest(fileService.getAllQuestions());
-        //System.out.println(fileService.getAllQuestions());
-
-
-
-
+        testingService.startTesting(fileService.getAllQuestions());
 
 
 
