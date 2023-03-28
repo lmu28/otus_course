@@ -1,5 +1,9 @@
 package org.student.testing.service;
 
+import org.student.testing.domain.Question;
+
+import java.util.List;
+
 public interface QuestionFileService {
-    void readAllQuestions();
+    List<Question> getAllQuestions();
 }
