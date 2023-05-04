@@ -1,23 +1,29 @@
 package com.spring.library.domain;
 
+import java.util.List;
+
 public class Book {
 
     int id;
     String name;
-    int authorId;
-    int genreId;
+    Author author;
 
-    public Book(int id, String name, int authorId, int genreId) {
-        this.id = id;
-        this.name = name;
-        this.authorId = authorId;
-        this.genreId = genreId;
+    List<Genre> genres;
+
+    public Book() {
     }
 
-    public Book(String name, int authorId, int genreId) {
+    public Book(String name, Author author, List<Genre> genres) {
+        this.genres = genres;
         this.name = name;
-        this.authorId = authorId;
-        this.genreId = genreId;
+        this.author = author;
+    }
+
+    public Book(int id, String name, Author author, List<Genre> genres) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.genres = genres;
     }
 
     public int getId() {
@@ -36,20 +42,20 @@ public class Book {
         this.name = name;
     }
 
-    public int getAuthorId() {
-        return authorId;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
-    public int getGenreId() {
-        return genreId;
+    public List<Genre> getGenres() {
+        return genres;
     }
 
-    public void setGenreId(int genreId) {
-        this.genreId = genreId;
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
     }
 
     @Override
@@ -57,8 +63,8 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", authorId=" + authorId +
-                ", genreId=" + genreId +
-                '}';
+                ", author=" + author +
+                ", genres=" + genres +
+                '}'+"\n\n";
     }
 }
