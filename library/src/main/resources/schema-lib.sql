@@ -14,17 +14,32 @@ create table book
 create table genre
 (
     id  int primary key AUTO_INCREMENT,
-    name varchar(255),
-    book_id int,
-    FOREIGN KEY (book_id)  REFERENCES book(id)
+    name varchar(255)
 );
 
 
+CREATE TABLE book_genre
+(
+    book_id  INT,
+    genre_id INT,
+    PRIMARY KEY (book_id, genre_id),
+    FOREIGN KEY (book_id) REFERENCES book (id),
+    FOREIGN KEY (genre_id) REFERENCES genre (id)
+);
+
+Create table comment
+(
+    id INT primary key auto_increment,
+    body text,
+    book_id INT,
+    FOREIGN KEY (book_id) references book(id)
+)
 
 
--- drop table book;
--- drop table author;
--- drop table genre;
-
+-- select * from book ;
+-- select * from  author;
+-- select * from  genre;
+-- select * from  book_genre ;
+-- select * from  comment ;
 
 

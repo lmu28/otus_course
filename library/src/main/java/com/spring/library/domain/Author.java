@@ -1,7 +1,14 @@
 package com.spring.library.domain;
 
+import jakarta.persistence.*;
+
+@Entity(name = "author")
 public class Author {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+
+    @Column(name = "name")
     String name;
 
     public Author(String name) {

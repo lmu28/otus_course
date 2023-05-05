@@ -1,26 +1,32 @@
 package com.spring.library.domain;
 
+
+import jakarta.persistence.*;
+
+@Entity(name = "genre")
 public class Genre {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+
+    @Column(name = "name")
     String name;
-    int book_id;
 
     public Genre() {
     }
 
-    public Genre(int id, String name, int book_id) {
+    public Genre(int id, String name) {
         this.id = id;
         this.name = name;
-        this.book_id = book_id;
+
     }
 
-    public Genre(String name, int book_id) {
-        this.name = name;
-        this.book_id = book_id;
-    }
     public Genre(String name) {
         this.name = name;
+
     }
+
 
     public int getId() {
         return id;
@@ -38,20 +44,13 @@ public class Genre {
         this.name = name;
     }
 
-    public int getBook_id() {
-        return book_id;
-    }
 
-    public void setBook_id(int book_id) {
-        this.book_id = book_id;
-    }
 
     @Override
     public String toString() {
         return "Genre{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", book_id=" + book_id +
                 '}';
     }
 }

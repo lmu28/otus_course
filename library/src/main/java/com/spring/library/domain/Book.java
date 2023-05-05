@@ -1,16 +1,47 @@
 package com.spring.library.domain;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+
+@Entity(name = "book")
 public class Book {
 
-    int id;
-    String name;
-    Author author;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    List<Genre> genres;
+    @Column(name = "name")
+    private String name;
+
+
+
+    @OneToMany(targetEntity = Comment.class,cascade = CascadeType.ALL)
+    @JoinColumn(name = "book_id")
+    List<Comment> comments;
+
+    @ManyToOne(targetEntity = Author.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_id")
+    private Author author;
+
+
+
+    @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.ALL)
+    @JoinTable(name="book_genre", joinColumns = @JoinColumn(name="book_id")
+            ,inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> genres;
+
+
 
     public Book() {
+    }
+    public Book(int id, String name, Author author, List<Comment> comments, List<Genre> genres) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.comments = comments;
+        this.genres = genres;
     }
 
     public Book(String name, Author author, List<Genre> genres) {
@@ -58,6 +89,14 @@ public class Book {
         this.genres = genres;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -65,6 +104,6 @@ public class Book {
                 ", name='" + name + '\'' +
                 ", author=" + author +
                 ", genres=" + genres +
-                '}'+"\n\n";
+                '}' + "\n\n";
     }
 }
