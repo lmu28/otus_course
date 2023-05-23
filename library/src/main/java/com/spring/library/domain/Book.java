@@ -1,11 +1,29 @@
 package com.spring.library.domain;
 
-import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
 
 import java.util.List;
 
 
-@Entity(name = "book")
+@Entity()
+@Table(name = "book")
+
+//@NamedEntityGraph(name = "book-comments-entity-graph",
+//        attributeNodes = {@NamedAttributeNode("comments")})
+
+@NamedEntityGraph(name = "book-comment-author-entity-graph",
+        attributeNodes = {
+        @NamedAttributeNode(value ="comments"),
+        @NamedAttributeNode(value = "author",subgraph = "author-communication-email-entity-graph")},
+        subgraphs = {
+                @NamedSubgraph(name = "author-communication-email-entity-graph", attributeNodes = {
+                        @NamedAttributeNode("communicationEmail")
+                })
+        }
+)
 public class Book {
 
     @Id
@@ -17,8 +35,8 @@ public class Book {
 
 
 
-    @OneToMany(targetEntity = Comment.class,cascade = CascadeType.ALL)
-    @JoinColumn(name = "book_id")
+    @OneToMany(mappedBy = "book",cascade = {CascadeType.ALL})
+
     List<Comment> comments;
 
     @ManyToOne(targetEntity = Author.class, cascade = CascadeType.ALL)
@@ -27,9 +45,12 @@ public class Book {
 
 
 
-    @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
+    @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name="book_genre", joinColumns = @JoinColumn(name="book_id")
             ,inverseJoinColumns = @JoinColumn(name = "genre_id"))
+
+
     private List<Genre> genres;
 
 
@@ -55,6 +76,13 @@ public class Book {
         this.name = name;
         this.author = author;
         this.genres = genres;
+    }
+
+    public Book(String name, Author author, List<Comment> comments, List<Genre> genres) {
+        this.comments = comments;
+        this.genres = genres;
+        this.name = name;
+        this.author = author;
     }
 
     public int getId() {
@@ -102,8 +130,9 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", author=" + author +
+                ", comments=" + comments +
+                ", author=" + author.getName() +
                 ", genres=" + genres +
-                '}' + "\n\n";
+                '}';
     }
 }

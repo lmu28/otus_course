@@ -1,9 +1,11 @@
 package com.spring.library.domain;
 
 
-import jakarta.persistence.*;
+import javax.persistence.*;
+import java.util.List;
 
-@Entity(name = "comment")
+@Entity()
+@Table(name = "comment")
 public class Comment {
 
     @Id
@@ -13,17 +15,27 @@ public class Comment {
     @Column(name = "body")
     String body;
 
-    @Column(name = "book_id")
-    int book_id;
+    @ManyToOne(targetEntity = Book.class,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @JoinColumn(name = "book_id")
+    Book book;
+
 
 
     public Comment() {
     }
 
-    public Comment(int id, String body, int book_id) {
+    public Comment(int id, String body, Book book) {
         this.id = id;
         this.body = body;
-        this.book_id = book_id;
+        this.book = book;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public int getId() {
@@ -34,10 +46,13 @@ public class Comment {
         return body;
     }
 
-    public int getBook_id() {
-        return book_id;
+    public Book getBook() {
+        return book;
     }
 
+    public void setBook(Book book) {
+        this.book = book;
+    }
 
     @Override
     public String toString() {

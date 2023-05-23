@@ -1,15 +1,28 @@
-INSERT INTO author (name)
-VALUES ('Анна Иванова'),
-       ('Максим Петров'),
-       ('Елена Смирнова'),
-       ('Илья Кузнецов'),
-       ('Александра Николаева'),
-       ('Дмитрий Морозов'),
-       ('Ксения Лебедева'),
-       ('Артем Федоров'),
-       ('Мария Ковалева'),
-       ('Павел Сидоров');
+INSERT INTO author_communication_email (name)
+VALUES
+    ('tuxeulloruxa-6560@yopmail.com'),
+    ('wahoimacoya-4846@yopmail.com'),
+    ('yemmaleimouppe-7384@yopmail.com'),
+    ('tusouproukouku-2046@yopmail.com'),
+    ('repramazautei-1577@yopmail.com'),
+    ('mejekouneugoi-3594@yopmail.com'),
+    ('seuxezettucrou-5243@yopmail.com'),
+    ('gausoirezesi-1294@yopmail.com'),
+    ('privautrufase-9947@yopmail.com'),
+    ('xapreuromatro-6534@yopmail.com');
 
+
+INSERT INTO author (name,communication_email_id)
+VALUES ('Анна Иванова',1),
+       ('Максим Петров',2),
+       ('Елена Смирнова',3),
+       ('Илья Кузнецов',4),
+       ('Александра Николаева',5),
+       ('Дмитрий Морозов',6),
+       ('Ксения Лебедева',7),
+       ('Артем Федоров',8),
+       ('Мария Ковалева',9),
+       ('Павел Сидоров',10);
 
 INSERT INTO book (name, author_id)
 VALUES ('Мастер и Маргарита', 1),
@@ -72,6 +85,12 @@ VALUES ('Очень интересная книга, рекомендую!', 1),
        ('Интересный поворот сюжета в конце книги', 5),
        ('Прекрасное описание персонажей, словно они живые', 6),
        ('Захватывает с первых страниц и не отпускает до конца', 7);
-
+INSERT INTO book_genre (book_id, genre_id)
+VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3),
+    (2, 2),
+    (3, 3);
 
 -- UPDATE book SET name = :name, author_id = :author_id, genre_id = :genre_id WHERE id = :id;

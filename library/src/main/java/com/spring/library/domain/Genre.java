@@ -1,9 +1,11 @@
 package com.spring.library.domain;
 
 
-import jakarta.persistence.*;
+import javax.persistence.*;
+import java.util.List;
 
-@Entity(name = "genre")
+@Entity()
+@Table(name = "genre")
 public class Genre {
 
     @Id
@@ -13,6 +15,12 @@ public class Genre {
     @Column(name = "name")
     String name;
 
+
+    @ManyToMany(mappedBy = "genres",cascade = CascadeType.ALL)
+//    @JoinTable(name = "book_genre",joinColumns = @JoinColumn(name = "genre_id")
+//            ,inverseJoinColumns = @JoinColumn(name = "book_id"))
+    private List<Book> books;
+
     public Genre() {
     }
 
@@ -20,6 +28,12 @@ public class Genre {
         this.id = id;
         this.name = name;
 
+    }
+
+    public Genre(int id, String name, List<Book> books) {
+        this.id = id;
+        this.name = name;
+        this.books = books;
     }
 
     public Genre(String name) {
@@ -45,6 +59,13 @@ public class Genre {
     }
 
 
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
 
     @Override
     public String toString() {
