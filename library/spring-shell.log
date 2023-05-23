@@ -1,0 +1,11 @@
+1683201438722:/get_book 1
+1683201448854:get_book 1
+1683201465326:get_book
+1683201473974:get_book 0
+1683202062872:/get_book 3
+1683202072342:/get_all_books
+1683202124162:/update_book Book{id=8, name='Доктор Живаго', author=Author{id=8, name='Артем Федоров'}, genres=[Genre{id=10, name='Научно-популярный', book_id=8}]}
+1683202152999:/update_book new Book()
+1683202176350:/delete_book 30
+1683202201446:/get_book 30
+1683202208277:/get_all_books
