@@ -1,95 +1,55 @@
 package com.spring.library.domain;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-
-@Entity()
-@Table(name = "book")
-
-//@NamedEntityGraph(name = "book-comments-entity-graph",
-//        attributeNodes = {@NamedAttributeNode("comments")})
-
-@NamedEntityGraph(name = "book-comment-author-entity-graph",
-        attributeNodes = {
-        @NamedAttributeNode(value ="comments"),
-        @NamedAttributeNode(value = "author",subgraph = "author-communication-email-entity-graph")},
-        subgraphs = {
-                @NamedSubgraph(name = "author-communication-email-entity-graph", attributeNodes = {
-                        @NamedAttributeNode("communicationEmail")
-                })
-        }
-)
+@Document(collection = "book")
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
-    @Column(name = "name")
     private String name;
 
 
 
-    @OneToMany(mappedBy = "book",cascade = {CascadeType.ALL})
-
-    List<Comment> comments;
-
-    @ManyToOne(targetEntity = Author.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_id")
+    @DBRef
     private Author author;
 
 
 
-    @Fetch(FetchMode.SUBSELECT)
-    @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name="book_genre", joinColumns = @JoinColumn(name="book_id")
-            ,inverseJoinColumns = @JoinColumn(name = "genre_id"))
 
-
+@DBRef
     private List<Genre> genres;
 
 
 
     public Book() {
     }
-    public Book(int id, String name, Author author, List<Comment> comments, List<Genre> genres) {
-        this.id = id;
-        this.name = name;
-        this.author = author;
-        this.comments = comments;
-        this.genres = genres;
-    }
 
-    public Book(String name, Author author, List<Genre> genres) {
-        this.genres = genres;
-        this.name = name;
-        this.author = author;
-    }
-
-    public Book(int id, String name, Author author, List<Genre> genres) {
+    public Book(String id, String name, List<Comment> comments, Author author, List<Genre> genres) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.genres = genres;
     }
 
-    public Book(String name, Author author, List<Comment> comments, List<Genre> genres) {
-        this.comments = comments;
-        this.genres = genres;
+    public Book(String id, String name) {
+        this.id = id;
         this.name = name;
-        this.author = author;
+        if (genres == null) genres = new ArrayList<>();
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -117,22 +77,17 @@ public class Book {
         this.genres = genres;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
 
     @Override
     public String toString() {
+        String authorName = " ";
+        if (getAuthor() != null) authorName = getAuthor().name;
         return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", comments=" + comments +
-                ", author=" + author.getName() +
-                ", genres=" + genres +
+                ", author=" + authorName +
+                ", genres=" + genres.stream().map(g -> g.getName()).collect(Collectors.toList()) +
                 '}';
     }
 }

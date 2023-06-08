@@ -1,35 +1,37 @@
 package com.spring.library.domain;
 
-import javax.persistence.*;
 
-@Entity
-@Table(name = "author_communication_email")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "author_communication_email")
 public class AuthorCommunicationEmail {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    @Column(name = "name")
+    String id;
+
     String name;
 
-    @OneToOne(mappedBy = "communicationEmail", cascade = CascadeType.ALL)
+
     private Author author;
 
     public AuthorCommunicationEmail() {
     }
 
-    public AuthorCommunicationEmail(int id, String name, Author author) {
+
+
+    public AuthorCommunicationEmail(String id, String name, Author author) {
         this.id = id;
         this.name = name;
         this.author = author;
     }
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

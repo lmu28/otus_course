@@ -1,6 +1,10 @@
 package com.spring.library.repository;
 
-public interface GenreRepository {
+import com.spring.library.domain.Genre;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-    void deleteById(int id);
+@Repository
+public interface GenreRepository extends MongoRepository<Genre,String> {
 }

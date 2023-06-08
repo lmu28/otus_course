@@ -1,57 +1,40 @@
 package com.spring.library.domain;
 
 
-import javax.persistence.*;
-import java.util.List;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity()
-@Table(name = "comment")
+@Document(collection = "comment")
 public class Comment {
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    String id;
 
-    @Column(name = "body")
     String body;
-
-    @ManyToOne(targetEntity = Book.class,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
-    @JoinColumn(name = "book_id")
-    Book book;
-
-
 
     public Comment() {
     }
 
-    public Comment(int id, String body, Book book) {
+    public Comment(String id, String body) {
         this.id = id;
         this.body = body;
-        this.book = book;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getBody() {
         return body;
     }
 
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBody(String body) {
+        this.body = body;
     }
 
     @Override

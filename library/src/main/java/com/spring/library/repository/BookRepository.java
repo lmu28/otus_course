@@ -1,24 +1,23 @@
 package com.spring.library.repository;
 
 import com.spring.library.domain.Book;
-import javax.persistence.*;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface BookRepository {
+@Repository
+public interface BookRepository extends MongoRepository<Book,String>,BookRepositoryBase {
 
-    Book save(Book book);
-    Book findById(int id);
-    List<Book> findAll();
+
 
     List<Book> findByName(String name);
-    void updateNameById(int id,String name );
 
-    void deleteById(int id);
-
-    void deleteByAuthorId(int authorId);
-
-
-
-
+//    @Query("{$group: {_id: '$field', count: {$sum: 1}}}")
+//    List<MyAggregationResult> performAggregation();
 }
+
+

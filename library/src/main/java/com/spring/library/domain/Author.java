@@ -1,48 +1,41 @@
 package com.spring.library.domain;
 
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity()
-@Table(name = "author")
+@Document(collection = "author")
 
-@NamedEntityGraph(name = "author-communication-email-entity-graph",
-        attributeNodes = {@NamedAttributeNode("communicationEmail")})
+
 public class Author {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    String id;
 
-    @Column(name = "name")
+
     String name;
 
-    @OneToOne(targetEntity = AuthorCommunicationEmail.class,cascade = CascadeType.ALL)
-    @JoinColumn(name = "communication_email_id")
-    private AuthorCommunicationEmail communicationEmail;
+
+  //  private AuthorCommunicationEmail communicationEmail;
 
 
-    @OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
+
+    @DBRef
     private List<Book> books;
 
-    public Author(String name) {
-        this.name = name;
-    }
-
-//    public Author(int id, String name, List<Book> books) {
-//        this.id = id;
-//        this.name = name;
-//        this.books = books;
-//    }
-
-    public Author(int id, String name, AuthorCommunicationEmail authorEmail, List<Book> books) {
-        this.id = id;
-        this.name = name;
-        this.communicationEmail = authorEmail;
-        this.books = books;
-    }
 
     public Author() {
+        if (books == null) books = new ArrayList<>();
+    }
+
+    public Author(String id, String name, AuthorCommunicationEmail communicationEmail, List<Book> books) {
+        this.id = id;
+        this.name = name;
+      //  this.communicationEmail = communicationEmail;
+        this.books = books;
     }
 
     public List<Book> getBooks() {
@@ -53,11 +46,11 @@ public class Author {
         this.books = books;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -69,20 +62,20 @@ public class Author {
         this.name = name;
     }
 
-    public AuthorCommunicationEmail getCommunicationEmail() {
-        return communicationEmail;
-    }
+  //  public AuthorCommunicationEmail getCommunicationEmail() {
+   //     return communicationEmail;
+   // }
 
-    public void setCommunicationEmail(AuthorCommunicationEmail authorEmail) {
-        this.communicationEmail = authorEmail;
-    }
+  //  public void setCommunicationEmail(AuthorCommunicationEmail authorEmail) {
+  //      this.communicationEmail = authorEmail;
+  //  }
 
     @Override
     public String toString() {
         return "Author{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", name='" + communicationEmail.getName() + '\'' +
+    //            ", name='" + communicationEmail.getName() + '\'' +
                 ", books=" + books +
                 '}';
     }
